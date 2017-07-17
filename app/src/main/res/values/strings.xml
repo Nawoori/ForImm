@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ForImm5</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="lang_list">
+        <item>한국어</item>
+        <item>english</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/attachemail"
+        android:icon="@drawable/ic_action_attach"
+        android:title="attach"
+        app:showAsAction="always"/>
+
+
+    <item
+        android:id="@+id/sendemail"
+        android:icon="@drawable/ic_action_send"
+        android:title="sendEmail"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/emailsettings"
+        android:icon="@drawable/ic_action_setting"
+        android:title="settings"
+        app:showAsAction="always"/>
+
+
+</menu>

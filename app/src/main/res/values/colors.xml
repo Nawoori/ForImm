@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ff4081</color>
+
+    <color name="mainBackground">#ffffff</color>
+    <color name="title">#727272</color>
+    <color name="unselectedLine">#c6c6c6</color>
+    <color name="searchBackground">#f7f7f7</color>
+    <color name="searchLine">#dadada</color>
+    <color name="email">#979797</color>
+    <color name="women">#fe5339</color>
+    <color name="man">#1855ef</color>
+    <color name="mapListBackground">#3b3b3b</color>
+    <color name="mapCount">#48e0a9</color>
+    <color name="mapPagerDot">#fe5339</color>
+
+</resources>

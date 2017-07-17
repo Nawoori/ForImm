@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceLocalTheme</item>
+    </style>
+
+    <style name="PreferenceLocalTheme" parent="@style/PreferenceThemeOverlay" />
+
+    <!--<style name="AppThemePreference" parent="AppTheme">-->
+        <!--<item name="android:listSeparatorTextViewStyle">@style/ListSeparatorTextView</item>-->
+        <!--<item name="android:textAppearanceLarge">@style/LargeText</item>-->
+        <!--<item name="android:textAppearanceMedium">@style/MediumText</item>-->
+    <!--</style>-->
+    <!--<style name="ListSeparatorTextView">-->
+        <!--<item name="android:textSize">16sp</item>-->
+        <!--&lt;!&ndash;item name="android:textStyle">bold</item&ndash;&gt;-->
+        <!--<item name="android:textColor">@color/colorPrimary</item>-->
+        <!--<item name="android:paddingTop">16dp</item>-->
+        <!--<item name="android:layout_marginBottom">16dp</item>-->
+    <!--</style>-->
+
+    <!--<style name="LargeText">-->
+        <!--<item name="android:textSize">100sp</item>-->
+    <!--</style>-->
+
+    <!--<style name="MediumText">-->
+        <!--<item name="android:textSize">50sp</item>-->
+        <!--<item name="android:typeface">sans</item>-->
+    <!--</style>-->
+
+</resources>

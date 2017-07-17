@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="기본 설정" >
+
+        <ListPreference
+            android:key="lang"
+            android:title="언어"
+            android:entries="@array/lang_list"
+            android:entryValues="@array/lang_list" />
+
+        <PreferenceScreen
+            android:title="버전 정보"
+            android:summary="0.9">
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="고객센터/도움말" >
+
+        <PreferenceScreen android:title="문의하기">
+
+        </PreferenceScreen>
+
+        <PreferenceScreen android:title="약관 및 정책">
+
+        </PreferenceScreen>
+
+        <PreferenceScreen android:title="회사소개">
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

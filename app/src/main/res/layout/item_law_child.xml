@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lawChildTitle"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="41dp"
+        android:text="TextView"
+        android:textColor="@color/title"
+        android:textSize="16sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/imageView12"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintRight_toLeftOf="@+id/lawChildStartInter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/list_down_black"
+        android:layout_marginEnd="20dp" />
+
+    <ImageView
+        android:id="@+id/lawChildStartInter"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/add_intertaction_black"
+        android:layout_marginEnd="16dp" />
+
+    <TextView
+        android:id="@+id/lawContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="50dp"
+        android:text="TextView"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lawChildTitle" />
+
+    <com.example.administrator.forimm5.Util.CustomInteraction
+        android:id="@+id/lawChildInteraction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="0dp">
+
+    </com.example.administrator.forimm5.Util.CustomInteraction>
+</android.support.constraint.ConstraintLayout>
