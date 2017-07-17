@@ -48,52 +48,46 @@ import java.util.Map;
 import static android.app.Activity.RESULT_OK;
 
 
-public class EmailFragment extends Fragment implements CheckPermission.CallBack{
+public class EmailFragment extends Fragment implements CheckPermission.CallBack {
 
+    View view;                              // 뷰 영역
     Toolbar toolbar;
-    View view;
-    ImageView emailAddress, myMail;
-    ConstraintLayout constraintLayout;
     PopupMenu popupMenu;
-    SharedPreferences sp;
-    SharedPreferences.Editor editor;
-    EditText inputMyMail, email, title, content;
-    ExpandableListView listView;
-    EmailExpandable expandable;
-    ImageView toggle;
-
     RecyclerView imageRecycler;
-    ImageAdapter adapter;
-    ArrayList<Uri> imageUri = new ArrayList<>();
+    ExpandableListView listView;
+    ConstraintLayout constraintLayout;
+    ImageView emailAddress, myMail, toggle;
+    EditText inputMyMail, email, title, content;
 
+    ImageAdapter adapter;                   // 자원 영역
     boolean status = false;
+    EmailExpandable expandable;
+    ArrayList<Uri> imageUri = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_email, container, false);
+        if(view == null) {
+            view = inflater.inflate(R.layout.fragment_email, container, false);
+            setViews();
+            setToolbar();
+            setListener();
+            initData();
 
-        init();
+            expandable = new EmailExpandable(chapters, contents, this);
+            listView.setAdapter(expandable);
+            listView.setGroupIndicator(null);
 
-        setToolbar();
-
-        setListener();
-
-        initData();
-        expandable = new EmailExpandable(chapters, contents, this);
-        listView.setAdapter(expandable);
-        listView.setGroupIndicator(null);
-
-        adapter = new ImageAdapter(this);
-        imageRecycler.setAdapter(adapter);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        imageRecycler.setLayoutManager(manager);
-
+            adapter = new ImageAdapter(this);
+            imageRecycler.setAdapter(adapter);
+            LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+            manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            imageRecycler.setLayoutManager(manager);
+        }
         return view;
     }
 
-    public void init(){
+    public void setViews() {
         toolbar = (Toolbar) view.findViewById(R.id.emailToolbar);
         constraintLayout = (ConstraintLayout) view.findViewById(R.id.constraintLayout);
         emailAddress = (ImageView) view.findViewById(R.id.imageView22);
@@ -102,15 +96,20 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack{
         email = (EditText) view.findViewById(R.id.inputEmail);
         title = (EditText) view.findViewById(R.id.inputTitle);
         content = (EditText) view.findViewById(R.id.inputContent);
-        sp = getActivity().getSharedPreferences("key", Context.MODE_PRIVATE);
         listView = (ExpandableListView) view.findViewById(R.id.recyclerView3);
         toggle = (ImageView) view.findViewById(R.id.toggleOn);
-        content.setText("\n"+"언제 : "+"\n\n"+"어디서 : "+"\n\n"+"누가"+"\n\n"+"무엇을 : "+"\n\n"+"어떻게 : ");
+        content.setText("\n" + "언제 : " + "\n\n" + "어디서 : " + "\n\n" + "누가" + "\n\n" + "무엇을 : " + "\n\n" + "어떻게 : ");
         imageRecycler = (RecyclerView) view.findViewById(R.id.imageRecycler);
     }
 
+    public void setListener() {
+        emailAddress.setOnClickListener(listener);
+        myMail.setOnClickListener(listener);
+        toggle.setOnClickListener(listener);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void setToolbar(){
+    public void setToolbar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
         toolbar.setBackgroundColor(getResources().getColor(R.color.mainBackground));
@@ -118,34 +117,26 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack{
         toolbar.setElevation(5);
     }
 
-
-    public void setListener(){
-
-        emailAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int status = constraintLayout.getVisibility();
-                Toast.makeText(v.getContext(), status+"", Toast.LENGTH_SHORT).show();
-
-                if(status == View.VISIBLE){
-                    emailAddress.setImageResource(R.drawable.list_down_black);
-                    constraintLayout.setVisibility(View.GONE);
-                    view.findViewById(R.id.imageView23).setVisibility(View.VISIBLE);
-                } else if(status == View.GONE){
-                    emailAddress.setImageResource(R.drawable.list_up);
-                    constraintLayout.setVisibility(View.VISIBLE);
-                    view.findViewById(R.id.imageView23).setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-
-        myMail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                popupMenu = new PopupMenu(getActivity(), v);
-                popupMenu.getMenu().add(0,0,0, "+추가");
-                popupMenu.getMenu().add(0,1,0, "qskeksq@gmail.com");
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.imageView22:
+                    int layoutsStatus = constraintLayout.getVisibility();
+                    if (layoutsStatus == View.VISIBLE) {
+                        emailAddress.setImageResource(R.drawable.list_down_black);
+                        constraintLayout.setVisibility(View.GONE);
+                        view.findViewById(R.id.imageView23).setVisibility(View.VISIBLE);
+                    } else if (layoutsStatus == View.GONE) {
+                        emailAddress.setImageResource(R.drawable.list_up);
+                        constraintLayout.setVisibility(View.VISIBLE);
+                        view.findViewById(R.id.imageView23).setVisibility(View.INVISIBLE);
+                    }
+                    break;
+                case R.id.myEmail:
+                    popupMenu = new PopupMenu(getActivity(), v);
+                    popupMenu.getMenu().add(0, 0, 0, "+추가");
+                    popupMenu.getMenu().add(0, 1, 0, "qskeksq@gmail.com");
 //                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 //                    @Override
 //                    public boolean onMenuItemClick(MenuItem item) {
@@ -159,51 +150,49 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack{
 //                        return true;
 //                    }
 //                });
-//                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId() == 0){
-                            View dialog = LayoutInflater.from(getActivity()).inflate(R.layout.custom_dialog, null);
-                            final EditText input = (EditText) dialog.findViewById(R.id.inputEmail);
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setTitle("이메일을 입력하세요");
-                            builder.setView(dialog);
-                            builder.setNegativeButton("취소", null);
-                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(getActivity(), "확인", Toast.LENGTH_SHORT).show();
-//                                    popupMenu.getMenu().add( 0, popupMenu.getMenu().size()+1, 0,  input.getText().toString() );
-                                    popupMenu.getMenu().add(0,2,0,"qskeksq@naver.com");
-                                }
-                            });
-                            builder.show();
-                        } else {
-                            inputMyMail.setText(item.getTitle());
+//                popupMenu.show()
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            if (item.getItemId() == 0) {
+                                View dialog = LayoutInflater.from(getActivity()).inflate(R.layout.custom_dialog, null);
+                                final EditText input = (EditText) dialog.findViewById(R.id.inputEmail);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle("이메일을 입력하세요");
+                                builder.setView(dialog);
+                                builder.setNegativeButton("취소", null);
+                                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(getActivity(), "확인", Toast.LENGTH_SHORT).show();
+                                        popupMenu.getMenu().add( 0, popupMenu.getMenu().size()+1, 0,  input.getText().toString() );
+//                                    popupMenu.getMenu().add(0, 2, 0, "qskeksq@naver.com");
+                                    }
+                                });
+                                builder.show();
+                            } else {
+                                inputMyMail.setText(item.getTitle());
+                            }
+                            return true;
                         }
-                        return true;
-                    }});
-                popupMenu.show();
-            }
-        });
+                    });
+                    popupMenu.show();
+                    break;
+                case R.id.toggleOn:
+                    if (status) {
+                        toggle.setImageResource(R.drawable.toggleon);
+                        content.setText("\n" + "언제 : " + "\n\n" + "어디서 : " + "\n\n" + "누가" + "\n\n" + "무엇을 : " + "\n\n" + "어떻게 : ");
+                        status = false;
+                    } else {
+                        toggle.setImageResource(R.drawable.toggleoff);
+                        content.setText("");
+                        status = true;
+                    }
+                    break;
 
-        toggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(status){
-                    toggle.setImageResource(R.drawable.toggleon);
-                    content.setText("\n"+"언제 : "+"\n\n"+"어디서 : "+"\n\n"+"누가"+"\n\n"+"무엇을 : "+"\n\n"+"어떻게 : ");
-                    status = false;
-                } else {
-                    toggle.setImageResource(R.drawable.toggleoff);
-                    content.setText("");
-                    status = true;
-                }
             }
-        });
-
-    }
+        }
+    };
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -212,17 +201,13 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.attachemail:
                 String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
                 CheckPermission.checkVersion(this, perms);
                 break;
             case R.id.sendemail:
-//                editor = sp.edit();
-//                String mymail = inputMyMail.getText().toString();
-//                editor.putString(mymail+"", mymail);
-//                editor.commit();
-                send3(inputMyMail.getText().toString(), email.getText().toString(), title.getText().toString(), content.getText().toString());
+                send(inputMyMail.getText().toString(), email.getText().toString(), title.getText().toString(), content.getText().toString());
                 break;
             case R.id.emailsettings:
                 break;
@@ -230,11 +215,11 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack{
 
         return true;
     }
-    Intent intent;
-    public void send3(String sender, String receiver, String title, String content){
+
+    public void send(String sender, String receiver, String title, String content) {
         String[] tos = {receiver};
         String[] me = {sender};
-        intent = new Intent(Intent.ACTION_SEND_MULTIPLE);   // 다중으로 보내고 싶을 때 사용
+        Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);   // 다중으로 보내고 싶을 때 사용
         intent.putExtra(Intent.EXTRA_EMAIL, tos);   // 받는 사람. 꼭 배열에 넣어줘야 한다. 아마 다수의 사람에게 보낼 수 있는 듯
         intent.putExtra(Intent.EXTRA_CC, me);       // 참조. 뭐하는 것인지는 아직 확실하지 않음.
         intent.putExtra(Intent.EXTRA_TEXT, content);
@@ -251,7 +236,7 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack{
     List<String> chapters;
     Map<String, List<Center>> contents;
 
-    public void initData(){
+    public void initData() {
         chapters = new ArrayList<>();
         contents = new HashMap<>();
 
@@ -284,8 +269,6 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack{
         List<Center> seoul = CenterLab.getInstance(getActivity()).getRegions(chapters.get(10));
         List<Center> jeju = CenterLab.getInstance(getActivity()).getRegions(chapters.get(11));
 
-
-
         contents.put(chapters.get(0), busan);
         contents.put(chapters.get(1), daegu);
         contents.put(chapters.get(2), gyeongbuk);
@@ -298,29 +281,27 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack{
         contents.put(chapters.get(9), gyeonggi);
         contents.put(chapters.get(10), seoul);
         contents.put(chapters.get(11), jeju);
-
     }
 
-    public void setEmail(String input){
+    public void setEmail(String input) {
         email.setText(input);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
-            if(requestCode == 999){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 999) {
                 imageRecycler.setVisibility(View.VISIBLE);
                 Uri uri = data.getData();
                 imageUri.add(uri);
                 adapter.setData(imageUri);
                 adapter.notifyDataSetChanged();
-                Log.e("확인",  imageUri.size()+"");       // 와 이거 진짜 이해 안 간다. 왜 어댑터에서 삭제한게 여기서 반영되지?
+                Log.e("확인", imageUri.size() + "");       // 와 이거 진짜 이해 안 간다. 왜 어댑터에서 삭제한게 여기서 반영되지?
             }
         }
-
     }
 
-    public void setImageRecyclerVisibility(){
+    public void setImageRecyclerVisibility() {
         imageRecycler.setVisibility(View.GONE);
     }
 

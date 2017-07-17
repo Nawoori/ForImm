@@ -2,7 +2,6 @@ package com.example.administrator.forimm5.Email;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.example.administrator.forimm5.R;
 
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -25,15 +21,15 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.Holder> {
 
-    ArrayList<Uri> imageUri = new ArrayList<>();
-    Context context;
+    Context context;                        // 사용할 자원
     EmailFragment fragment;
+    ArrayList<Uri> imageUri = new ArrayList<>();
 
     public ImageAdapter(EmailFragment fragment) {
         this.fragment = fragment;
     }
 
-    public void setData(ArrayList<Uri> images){
+    public void setData(ArrayList<Uri> images) {
         this.imageUri = images;
     }
 
@@ -65,17 +61,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.Holder> {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.attachImage);
             cancel = (ImageView) itemView.findViewById(R.id.attachCancel);
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    imageUri.remove(position);
-                    notifyDataSetChanged();
-                    if(imageUri.size() == 0){
-                        fragment.setImageRecyclerVisibility();
-                    }
-                }
-            });
+            cancel.setOnClickListener(listener);
         }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 이미지 제거
+                imageUri.remove(position);
+                notifyDataSetChanged();
+                // 만약 이미지가 0개이면 리사이클러뷰를 숨긴다.
+                if (imageUri.size() == 0) {
+                    fragment.setImageRecyclerVisibility();
+                }
+            }
+        };
 
     }
 }

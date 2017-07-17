@@ -33,25 +33,33 @@ public class LawAdapter extends BaseExpandableListAdapter {
         this.original = data;
     }
 
-    // 전체 부모 뷰 개수
+    /**
+     * 전체 부모 뷰 개수
+     */
     @Override
     public int getGroupCount() {
         return data.size();
     }
 
-    // 각 부모 뷰에 할당된 자식 뷰 개수
+    /**
+     * 각 부모 뷰에 할당된 자식 뷰 개수
+     */
     @Override
     public int getChildrenCount(int groupPosition) {
         return data.get(groupPosition).getData().size();
     }
 
-    // 현재 부모 뷰
+    /**
+     * 현재 부모 뷰
+     */
     @Override
     public Object getGroup(int groupPosition) {
         return data.get(groupPosition);
     }
 
-    // 현재 자식 뷰
+    /**
+     * 현재 자식 뷰
+     */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         return data.get(groupPosition).getData().get(childPosition);
@@ -72,6 +80,9 @@ public class LawAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    /**
+     * 자식 뷰 설정
+     */
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if(convertView == null) {
@@ -83,13 +94,18 @@ public class LawAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * 부모 뷰 설정
+     */
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         // 애니메이션 처리할 떄 null 값 처리해주고 재활용하기 때문에 문제 생김. 대부분 뷰 관련 문제는 재사용성 때문 인 듯 하다
         convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_law_child, parent, false);
+
         // 자식뷰 제목 설정
         TextView title = (TextView) convertView.findViewById(R.id.lawChildTitle);
         title.setText(data.get(groupPosition).getData().get(childPosition).getTitle());
+
         // 자식뷰 내용 설정
         final TextView content = (TextView) convertView.findViewById(R.id.lawContent);
         content.setText(data.get(groupPosition).getData().get(childPosition).getContent());
@@ -105,19 +121,24 @@ public class LawAdapter extends BaseExpandableListAdapter {
         });
         // + 버튼 설정
         ImageView start = (ImageView) convertView.findViewById(R.id.lawChildStartInter);
+
+        // 애니메이션으로 등장할 커스텀 뷰 설정
         final CustomInteraction interaction = (CustomInteraction) convertView.findViewById(R.id.lawChildInteraction);
         ImageView cancelInteraction = (ImageView) interaction.findViewById(R.id.cancelInteraction);
+
+        // 애니메이션 설정
         final Animation slide_in = AnimationUtils.loadAnimation(parent.getContext(), R.anim.slide_in_left);
         final Animation slide_out = AnimationUtils.loadAnimation(parent.getContext(), R.anim.slide_out_left);
         interaction.setAnimation(slide_in);
         interaction.setAnimation(slide_out);
 
+        // 동기화 해주기 위해 리스너 설정
         slide_out.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
 
             }
-
+            // 애니메이션이 끝난 후 값을 변경해 준다.
             @Override
             public void onAnimationEnd(Animation animation) {
                 interaction.setVisibility(View.GONE);
@@ -128,7 +149,6 @@ public class LawAdapter extends BaseExpandableListAdapter {
 
             }
         });
-
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +158,6 @@ public class LawAdapter extends BaseExpandableListAdapter {
                 }
             }
         });
-
         cancelInteraction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,39 +169,75 @@ public class LawAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
 
-
+    /**
+     * 데이터 필터링 한 후 검색된 내용만을 리스트에 갱신해서 출력
+     * @param newText : 입력된 검색어
+     */
     public void filter(String newText){
-
+        // 처음에는 반드시 원상태로 복구해 준다. 복구해 주지 않으면 밑에서 변형된 채로 검색하기 때문에 데이터가 온전히 검색되지 않을 수 있다.
         data = original;
-
+        // 검색이 취소될 때 원상태로 리턴되게 한다.
         if(newText.length() == 0){
             return;
         } else {
-
+            // 검색된 자료를 담을 부모 객체
             List<LawParent> newParentList = new ArrayList<>();
-
+            // 부모 객체 안의 자식 개체 하나하나 조사
             for(LawParent parent : data){
                 List<LawChild> newChildList = new ArrayList<>();
                 for(LawChild child : parent.getData()){
+                    // 자식 객체가 검색어를 포함하고 있다면
                     if(child.getTitle().contains(newText) || child.getContent().contains(newText)){
+                        // 새로운 자식 객체 배열에 담아둔다
                         newChildList.add(child);
                     }
                 }
+                // 자식 객체를 모두 조사한 후 검색된 유효값이 있다면 새로운 부모 객체에 담아준다.
                 if(newChildList.size() > 0){
                     // 새로운 parent 를 넣어줘야지 위에 있는 parent 전체를 넣어버리면 어떡하냐
                     LawParent newParent = new LawParent(parent.getChapter(), newChildList);
                     newParentList.add(newParent);
                 }
             }
+            // 마지막에 새로운 부모 객체(자식 개체를 담고 있는)를 담고 있는 배열로 기존 데이터를 갱신해 준다.
             data = newParentList;
         }
+        // 어댑터 갱신
         notifyDataSetChanged();
     }
 
+    // todo 홀더로 뺴주기
+    class ChildHolder {
+
+        TextView title, content;
+        ImageView start, cancelInteraction;
+        CustomInteraction interaction;
+
+        public ChildHolder(View convertView) {
+
+            title = (TextView) convertView.findViewById(R.id.lawChildTitle);
+            content = (TextView) convertView.findViewById(R.id.lawContent);
+            start = (ImageView) convertView.findViewById(R.id.lawChildStartInter);
+            interaction = (CustomInteraction) convertView.findViewById(R.id.lawChildInteraction);
+            cancelInteraction = (ImageView) interaction.findViewById(R.id.cancelInteraction);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(content.getVisibility()== View.GONE){
+                        content.setVisibility(View.VISIBLE);
+                    } else {
+                        content.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+    }
 
 }
