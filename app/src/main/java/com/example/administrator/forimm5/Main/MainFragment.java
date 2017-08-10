@@ -2,10 +2,12 @@ package com.example.administrator.forimm5.Main;
 
 
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,41 +22,54 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class MainFragment extends Fragment implements View.OnClickListener {
 
-    ContainerFragment containerFragment;    // 자원 영역
-    View view;                              // 뷰 영역
-    ImageView settings;
-    Button goMap, goLaw, goFaq, goEmail;
+    private ContainerFragment containerFragment;    // 자원 영역
+    private LanguageAdapter adapter;
+    private View view;                              // 뷰 영역
+    private ImageView settings;
+    private Button goMap, goLaw, goFaq, goEmail;
+    private RecyclerView languageRecycler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(view == null) {
-            view = inflater.inflate(R.layout.fragment_main, container, false);
-            setFragment();
-            init(view);
-            setListener();
-            Log.e("생명주기 확인", "MainFragment");
-            // 이게 계속 확인되는 것으로 보아 액티비티가 죽으면 프래그먼트도 죽는 듯 하다.
-            // 메인 프래그먼트는 고정되어 있어서 재사용 할 경우가 없다. 따라서 굳이 생명주기 관리, 재사용성 관리를 해 주지 않아도 된다.
-        }
+        // 재사용성 여부 따질 필요 없음.
+        view = inflater.inflate(R.layout.fragment_main, container, false);
+        setFragment();
+        init(view);
+        setListener();
+        setLanguageRecycler();
         return view;
     }
 
-
-    // 프래그먼트 생성
-    public void setFragment(){
+    /**
+     * 프래그먼트 생성
+     */
+    public void setFragment() {
         containerFragment = new ContainerFragment();
     }
 
-    // 초기화
-    private void init(View view){
+    /**
+     * 뷰 초기화
+     */
+    private void init(View view) {
         goMap = (Button) view.findViewById(R.id.goMap);
         goLaw = (Button) view.findViewById(R.id.goLaw);
         goFaq = (Button) view.findViewById(R.id.goFaq);
         goEmail = (Button) view.findViewById(R.id.goEmail);
         settings = (ImageView) view.findViewById(R.id.settings);
+        languageRecycler = (RecyclerView) view.findViewById(R.id.languageRecycler);
+
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/NotoSans-Regular.ttf");
+        goMap.setTypeface(typeface);
+        goLaw.setTypeface(typeface);
+        goFaq.setTypeface(typeface);
+        goEmail.setTypeface(typeface);
+
     }
 
-    private void setListener(){
+    /**
+     * 리스너 설정
+     */
+    private void setListener() {
         goMap.setOnClickListener(this);
         goLaw.setOnClickListener(this);
         goFaq.setOnClickListener(this);
@@ -62,10 +77,28 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         settings.setOnClickListener(this);
     }
 
-    // 페이지 넘어가기
-    public void onClick(View view){
+
+
+    /**
+     * 어댑터 생성, 리사이클러뷰에 설정, 라사이클러뷰 매니저 설정
+     */
+    public void setLanguageRecycler(){
+        adapter = new LanguageAdapter(getContext());
+        languageRecycler.setAdapter(adapter);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        languageRecycler.setLayoutManager(manager);
+    }
+
+
+    /**
+     * 컨테이너 프래그먼트 띄우고 -> 컨테이너 프래그먼트에서 보여줄 프래그먼트를 다시 설정해 준다
+     */
+    public void onClick(View view) {
+        // 컨테이너 프래그먼트 띄위기
         callFragment(containerFragment);
-        switch(view.getId()){
+        // 내부 프래그먼트 설정
+        switch (view.getId()) {
             case R.id.goMap:
                 containerFragment.setFragmentPosition(0);
                 break;
@@ -83,9 +116,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    // 프래그먼트 띄우기 -- 맵의 경우 시간이 오래 걸릴 경우 대비해서 스레드로 뺴준다.
-    public void callFragment(final Fragment fragment){
-        new AsyncTask<Void, Void, Void>(){
+    /**
+     * 프래그먼트 띄우기 -- 맵의 경우 시간이 오래 걸릴 경우 스레드로 뺴준다.
+     */
+    public void callFragment(final Fragment fragment) {
+        new AsyncTask<Void, Void, Void>() {
             ProgressDialog dialog = new ProgressDialog(getActivity());
 
             @Override
@@ -101,7 +136,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .addToBackStack(null)
-                        .setCustomAnimations(R.anim.slide_in_left, 0, 0, R.anim.slide_out_left)
                         .add(R.id.fragmentContainer, fragment)
                         .commit();
                 return null;
@@ -114,11 +148,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }.execute();
     }
 
-    public void callContainer(LatLng latLng, int zoom){
+    public void callContainer(LatLng latLng, int zoom) {
         containerFragment.callMap(latLng, zoom);
     }
 
-    public void movePager(String title){
+    public void movePager(String title) {
         containerFragment.movePager(title);
     }
 }

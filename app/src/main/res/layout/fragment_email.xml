@@ -133,77 +133,51 @@
             app:layout_constraintTop_toBottomOf="@+id/inputEmail"
             app:layout_constraintHorizontal_bias="0.0" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="284dp"
-        android:visibility="gone"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView23">
-
-        <SearchView
-            android:id="@+id/searchView4"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginEnd="9dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="9dp"
-            android:layout_marginStart="16dp"
-            android:background="@color/searchBackground"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:text="남자"
-            android:textColor="@color/man"
-            android:textSize="12sp"
-            app:layout_constraintRight_toLeftOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/searchView4" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:text="여자"
-            android:textColor="@color/women"
-            android:textSize="12sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView4" />
-
-        <ImageView
-            android:id="@+id/imageView24"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="@color/unselectedLine"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
-
-        <ExpandableListView
-            android:id="@+id/recyclerView3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:childDivider="@color/mainBackground"
-            app:layout_constraintBottom_toTopOf="@+id/imageView24"
+            android:layout_height="284dp"
+            android:visibility="gone"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView23">
 
-    </android.support.constraint.ConstraintLayout>
+            <SearchView
+                android:id="@+id/searchView4"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="9dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/searchBackground"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView24"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/unselectedLine"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <ExpandableListView
+                android:id="@+id/recyclerView3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:childDivider="@color/mainBackground"
+                app:layout_constraintBottom_toTopOf="@+id/imageView24"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchView4" />
+
+        </android.support.constraint.ConstraintLayout>
 
         <EditText
             android:id="@+id/inputTitle"

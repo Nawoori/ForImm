@@ -24,7 +24,9 @@ public class MainActivity extends AppCompatActivity implements MapListFragment.C
         callFragment(mainFragment);
     }
 
-    // 메인 프래그먼트 띄우는 함수
+    /**
+     * 메인 프래그먼트 띄우는 함수
+     */
     public void callFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, fragment).commit();
     }

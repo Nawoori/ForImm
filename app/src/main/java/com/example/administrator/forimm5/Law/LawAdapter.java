@@ -1,5 +1,6 @@
 package com.example.administrator.forimm5.Law;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +101,9 @@ public class LawAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         // 애니메이션 처리할 떄 null 값 처리해주고 재활용하기 때문에 문제 생김. 대부분 뷰 관련 문제는 재사용성 때문 인 듯 하다
+        if(convertView != null)
+            return convertView;
+
         convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_law_child, parent, false);
 
         // 자식뷰 제목 설정
@@ -162,6 +166,7 @@ public class LawAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 if(interaction.getVisibility() == View.VISIBLE) {
+                    Log.e(this.getClass().getSimpleName(),"cancellation Button is clicked");
                     interaction.startAnimation(slide_out);
                 }
             }

@@ -14,10 +14,13 @@
         android:layout_marginLeft="17dp"
         android:layout_marginStart="17dp"
         android:layout_marginTop="18dp"
-        android:fontFamily="sans-serif"
         android:text="Migrant Help"
-        android:textColor="@color/title"
         android:textSize="30sp"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="normal"
+        android:textColor="@color/main_title"
+        android:lineSpacingExtra="-6sp"
+        tools:text="Migrant help"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,24 +31,12 @@
         android:layout_marginLeft="17dp"
         android:layout_marginStart="17dp"
         android:layout_marginTop="14dp"
-        android:fontFamily="sans-serif"
         android:text="in South Korea"
-        android:textColor="@color/title"
         android:textSize="30sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="14dp"
-        android:fontFamily="sans-serif"
-        android:text="in South Korea"
-        android:textColor="@color/title"
-        android:textSize="30sp"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="normal"
+        android:textColor="@color/main_title"
+        android:lineSpacingExtra="-6sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -58,7 +49,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/line_selected" />
+        app:srcCompat="@drawable/line_selected"
+        android:scaleType="fitCenter"/>
 
     <ImageView
         android:id="@+id/imageView5"
@@ -99,8 +91,9 @@
         android:layout_height="0dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="이주민노동센터 찾기"
-        android:textColor="@color/title"
+        android:textColor="@color/go_menu"
         android:textSize="23sp"
+        android:lineSpacingExtra="-5sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -114,8 +107,9 @@
         android:layout_height="0dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="한국 노동법 검색"
-        android:textColor="@color/title"
+        android:textColor="@color/go_menu"
         android:textSize="23sp"
+        android:lineSpacingExtra="-5sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -127,8 +121,9 @@
         android:layout_height="0dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="자주 묻는 질문"
-        android:textColor="@color/title"
+        android:textColor="@color/go_menu"
         android:textSize="23sp"
+        android:lineSpacingExtra="-5sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -144,23 +139,24 @@
         android:layout_marginTop="0dp"
         android:background="?android:attr/selectableItemBackground"
         android:text="이메일 컨설팅"
-        android:textColor="@color/title"
+        android:textColor="@color/go_menu"
         android:textSize="23sp"
+        android:lineSpacingExtra="-5sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/languageRecycler"
         android:layout_width="0dp"
-        android:layout_height="86dp"
-        android:layout_marginTop="29dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="36dp"
         android:background="@color/mainBackground"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <ImageView
         android:id="@+id/settings"
@@ -170,6 +166,7 @@
         android:layout_marginTop="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
+        android:scaleType="fitCenter"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/main_setting" />

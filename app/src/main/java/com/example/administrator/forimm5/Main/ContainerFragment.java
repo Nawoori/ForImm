@@ -190,7 +190,6 @@ public class ContainerFragment extends Fragment implements View.OnClickListener{
             protected Void doInBackground(Void... params) {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_left,0,0,R.anim.slide_out_left)
                         .replace(R.id.subFragmentContainer, fragment)
                         .commit();
                 return null;

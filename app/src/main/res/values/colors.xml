@@ -5,6 +5,8 @@
     <color name="colorAccent">#ff4081</color>
 
     <color name="mainBackground">#ffffff</color>
+    <color name="main_title">#1c1c1c</color>
+    <color name="go_menu">#1b1b1b</color>
     <color name="title">#727272</color>
     <color name="unselectedLine">#c6c6c6</color>
     <color name="searchBackground">#f7f7f7</color>
