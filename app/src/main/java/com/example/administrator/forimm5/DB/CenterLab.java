@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.administrator.forimm5.Util.Const.ADDRESS;
+import static com.example.administrator.forimm5.Util.Const.NAME;
 import static com.example.administrator.forimm5.Util.Const.REGION;
 import static com.example.administrator.forimm5.Util.Const.TABLE_NAME;
 
@@ -90,6 +92,25 @@ public class CenterLab {
         cursor.close();
         return data;
     }
+
+    public List<Center> querySome(String query){
+        List<Center> centers = new ArrayList<>();
+
+        String whereClause =
+                REGION + " like '%"+query+"%' or "+
+                NAME + " like '%"+query+"%' or " +
+                ADDRESS + " like '%"+query+"%' ";
+
+        CenterCursorWrapper cursor = query(whereClause, null);
+
+        while(cursor.moveToNext()){
+            Center center = cursor.getCenterFromCursor();
+            centers.add(center);
+        }
+        cursor.close();
+        return centers;
+    }
+
 
     // 쿼리 메소드
     public CenterCursorWrapper query(String whereClause, String[] whereArgs){

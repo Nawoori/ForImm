@@ -1,5 +1,6 @@
 package com.example.administrator.forimm5.Map;
 
+import android.graphics.Typeface;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
@@ -10,8 +11,6 @@ import android.widget.TextView;
 
 import com.example.administrator.forimm5.DB.Center;
 import com.example.administrator.forimm5.R;
-import com.example.administrator.forimm5.Util.Const;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -61,6 +60,16 @@ public class MapPagerAdapter extends PagerAdapter implements View.OnClickListene
         pagerItem.setOnClickListener(this);
         Log.e("페이저 확인", center.getName());
 
+        Typeface typeface = Typeface.createFromAsset(fragment.getActivity().getAssets(), "fonts/NotoSans-Bold.ttf");
+        name.setSelected(true);
+        name.setTypeface(typeface);
+        address.setSelected(true);
+        address.setTypeface(typeface);
+
+        phone.setTypeface(typeface);
+        email.setTypeface(typeface);
+        email.setSelected(true);
+
         latLng = new LatLng(Double.parseDouble(center.getLat()), Double.parseDouble(center.getLng()));
 
         container.addView(view);
@@ -70,7 +79,6 @@ public class MapPagerAdapter extends PagerAdapter implements View.OnClickListene
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-
         container.removeView((View)object);
     }
 

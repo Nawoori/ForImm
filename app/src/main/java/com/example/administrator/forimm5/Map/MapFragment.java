@@ -15,11 +15,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.forimm5.DB.Center;
 import com.example.administrator.forimm5.DB.CenterLab;
@@ -56,9 +57,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
     GoogleMap googleMap;
     LinearLayoutManager manager;
 
-    ImageView mapPagerHam, pagerDown;
-    ConstraintLayout pagerLayout;
-    SearchView searchView;
+    ImageView mapPagerHam, pagerDown, searchViewIcon;
+    TextView searchViewText;
+    ConstraintLayout pagerLayout, searchViewLayout;
     FloatingActionButton fab;
 
     String curRegion;
@@ -95,10 +96,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
         indicator = (CircleIndicator) view.findViewById(R.id.circleIndicator);
         pagerLayout = (ConstraintLayout) view.findViewById(R.id.pagerLayout);
         mapPagerHam = (ImageView) view.findViewById(R.id.mapPagerHam);
-        searchView = (SearchView) view.findViewById(R.id.mapSearch);
         pagerDown = (ImageView) view.findViewById(R.id.pagerDown);
-        adapter = new MapAdapter(this, setData());
+        adapter = new MapAdapter(this, setData(), getContext());
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        searchViewLayout = (ConstraintLayout) view.findViewById(R.id.searchViewLayout);
+        searchViewIcon = (ImageView) view.findViewById(R.id.searchViewIcon);
+        searchViewText = (TextView) view.findViewById(R.id.searchViewText);
     }
 
     public void setListener() {
@@ -106,17 +109,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
         mapPagerHam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                        .setCustomAnimations(R.anim.slide_up, 0, 0, R.anim.slide_down).add(R.id.mapListContainer, MapListFragment.newInstance(curRegion)).commit();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .setCustomAnimations(R.anim.slide_up, 0, 0, R.anim.slide_down)
+                        .add(R.id.containerLayout, MapListFragment.newInstance(curRegion))
+                        .commit();
 
             }
         });
 
-        searchView.setOnClickListener(new View.OnClickListener() {
+
+        searchViewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                        .add(R.id.mapListContainer, new MapSearchFragment()).commit();
+            public void onClick(View view) {
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .add(R.id.containerLayout, new MapSearchFragment())
+                        .commit();
             }
         });
 
@@ -157,8 +168,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
         pagerAdapter = new MapPagerAdapter(data.get(position), this);
         mapPager.setAdapter(pagerAdapter);
 
-        mapPager.setClipToPadding(false);
-        mapPager.setPadding(120, 0, 120, 0);
+//        mapPager.setClipToPadding(false);
+//        mapPager.setPadding(120, 0, 120, 0);
 
         indicator.setViewPager(mapPager);
 
@@ -247,7 +258,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
     // 지역 선택 리사이클러 세팅
     public void setRegionRecycler() {
         data = setData();
-        adapter = new MapAdapter(this, data);
+        adapter = new MapAdapter(this, data, getContext());
         recyclerView.setAdapter(adapter);
         manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -370,6 +381,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
                 moveLocal(latLng, 14);
                 Marker marker = googleMap.addMarker(new MarkerOptions().title("현재 위치").position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected)));
                 marker.showInfoWindow();
+                Toast.makeText(getActivity(), latLng.toString(), Toast.LENGTH_LONG).show();
             }
 
         }

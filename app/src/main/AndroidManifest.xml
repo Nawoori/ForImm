@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.administrator.forimm5">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,16 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".Main.MainActivity"
             android:windowSoftInputMode="adjustPan">
+
         </activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAi23okvIpeH1FXebMCWqeW7_QSV12jfpg" />
 
-        <activity android:name=".LauncherActivity">
+        <activity android:name=".Main.LaunchingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

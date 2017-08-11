@@ -1,5 +1,8 @@
 package com.example.administrator.forimm5.Map;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +20,13 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.Holder> {
 
     List<List<Center>> data;        // 각 쿼리된 지역 배열을 다시 배열로 갖는 리스트를 리턴한다.
     MapFragment fragment;
+    Context context;
+    Center center;
 
-    public MapAdapter(MapFragment fragment, List<List<Center>> data) {
+    public MapAdapter(MapFragment fragment, List<List<Center>> data, Context context) {
         this.data = data;
         this.fragment = fragment;
+        this.context = context;
     }
 
     @Override
@@ -32,17 +38,28 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.Holder> {
     @Override
     public void onBindViewHolder(Holder holder, int position) {
 
+        center = data.get(position).get(0);
+
         int count =  data.get(position).size();
-        String name = data.get(position).get(0).getRegion();
-        int resId = data.get(position).get(0).getResId();
-        int selectedResId = data.get(position).get(0).getSelectedResId();
+        String name = center.getRegion();
+        int resId = center.getResId();
 
         holder.count.setText(count+"");
         holder.name.setText(name);
+        holder.name.setTextColor(Color.WHITE);
         holder.region.setImageResource(resId);
         holder.position = position;
-        holder.selectedResId = selectedResId;
         holder.curregion = name;
+
+        if(center.isSelected()){
+            holder.region.setImageResource(center.getSelectedResId());
+            holder.name.setTextColor(context.getResources().getColor(R.color.mapCount));
+        }
+
+        Typeface typefaceItalicBold = Typeface.createFromAsset(fragment.getActivity().getAssets(), "fonts/NotoSans-BoldItalic.ttf");
+        Typeface typefaceBold = Typeface.createFromAsset(fragment.getActivity().getAssets(), "fonts/NotoSans-Bold.ttf");
+        holder.count.setTypeface(typefaceItalicBold);
+        holder.name.setTypeface(typefaceBold);
 
     }
 
@@ -57,7 +74,7 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.Holder> {
 
         TextView count, name;
         ImageView region;
-        int position, selectedResId;
+        int position;
         String curregion;
 
         public Holder(final View itemView) {
@@ -77,12 +94,12 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.Holder> {
                     fragment.setMarkers(position);
                     fragment.setCenterPager(position);
                     fragment.setCurRegion(curregion);
-//                    for(int i=0; i< data.size(); i++){
-//
-//                        region.setImageResource(data.get(i).get(0).getResId());
-//                    }
-//                    region.setImageResource(selectedResId);
 
+                    for(List<Center> region : data){
+                        region.get(0).setSelected(false);
+                    }
+                    data.get(position).get(0).setSelected(true);
+                    notifyDataSetChanged();
                 }
             });
         }

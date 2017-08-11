@@ -15,6 +15,7 @@ public class Center {
     private String email;
     private int resId;
     private int selectedResId;
+    private boolean isSelected = false;
 
     public int getSelectedResId() {
         return selectedResId;
@@ -86,5 +87,13 @@ public class Center {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
