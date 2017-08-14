@@ -1,6 +1,7 @@
 package com.example.administrator.forimm5.Law;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
@@ -9,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.example.administrator.forimm5.DB.LawChild;
 import com.example.administrator.forimm5.DB.LawLab;
 import com.example.administrator.forimm5.DB.LawParent;
+import com.example.administrator.forimm5.Main.MainActivity;
 import com.example.administrator.forimm5.R;
 
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ public class LawFragment extends Fragment {
     LawAdapter lawAdapter;
     ExpandableListView listView;
     List<LawParent> data = new ArrayList<>();       // 자원 영역
+    MainActivity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,17 +41,25 @@ public class LawFragment extends Fragment {
             setViews();
             setListener();
             initData();
-            lawAdapter = new LawAdapter(data);
+            lawAdapter = new LawAdapter(data, activity);
             listView.setAdapter(lawAdapter);
             listView.setGroupIndicator(null);
             Log.e("생명주기 확인", "LawFragment");
         }
+
         return view;
+    }
+
+    public void collapseGroup(){
+        for (int i = 0; i < 4; i++) {
+            listView.collapseGroup(i);
+        }
     }
 
     public void setViews(){
         listView = (ExpandableListView) view.findViewById(R.id.lawExpandable);
         searchView = (SearchView) view.findViewById(R.id.lawSearch);
+
     }
 
     public void setListener(){
@@ -125,4 +137,9 @@ public class LawFragment extends Fragment {
         data.add(parent4);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (MainActivity) context;
+    }
 }

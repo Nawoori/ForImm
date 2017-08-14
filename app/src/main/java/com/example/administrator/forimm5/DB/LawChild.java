@@ -8,6 +8,7 @@ public class LawChild {
 
     String title;
     String content;
+    boolean isExpanded = false;
 
     public LawChild(String title, String content) {
         this.title = title;
@@ -28,5 +29,13 @@ public class LawChild {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isExpanded() {
+        return isExpanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        isExpanded = expanded;
     }
 }

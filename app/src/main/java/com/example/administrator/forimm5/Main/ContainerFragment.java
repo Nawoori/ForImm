@@ -128,6 +128,7 @@ public class ContainerFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.customLawImg:
                 callFragmentByAnimation(lawFragment);
+                lawFragment.collapseGroup();
                 goLaw.setImageResource(R.drawable.law_selected);
                 break;
             case R.id.customFaqImg:
@@ -226,4 +227,18 @@ public class ContainerFragment extends Fragment implements View.OnClickListener{
         mapFragment.movePagerPage(title);
     }
 
+    public void callMail(){
+        initImg();
+        callFragmentByAnimation(emailFragment);
+        goEmail.setImageResource(R.drawable.mail_selected);
+    }
+
+    public void setLawContent(String law){
+        emailFragment.setLawContent(law);
+        Log.e("ContainerFragment", law);
+    }
+
+    public void setCenterByCurPos(){
+        mapFragment.findCenterByCurPosition();
+    }
 }

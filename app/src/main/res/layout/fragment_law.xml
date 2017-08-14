@@ -52,6 +52,7 @@
         android:layout_marginTop="40dp"
         android:animateLayoutChanges="true"
         android:childDivider="@color/mainBackground"
+        android:divider="@color/mainBackground"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
@@ -59,4 +60,5 @@
         android:layout_marginBottom="8dp">
 
     </ExpandableListView>
+
 </android.support.constraint.ConstraintLayout>

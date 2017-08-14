@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
      * 어댑터 생성, 리사이클러뷰에 설정, 라사이클러뷰 매니저 설정
      */
     public void setLanguageRecycler(){
-        adapter = new LanguageAdapter(getContext());
+        adapter = new LanguageAdapter(getContext(), this);
         languageRecycler.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -148,6 +149,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }.execute();
     }
 
+    public void refreshFragment(){
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .detach(this)
+                .attach(this)
+                .commit();
+    }
+
     public void callContainer(LatLng latLng, int zoom) {
         containerFragment.callMap(latLng, zoom);
     }
@@ -155,4 +164,18 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     public void movePager(String title) {
         containerFragment.movePager(title);
     }
+
+    public void callEmail(){
+        containerFragment.callMail();
+    }
+
+    public void setLawContent(String law){
+        containerFragment.setLawContent(law);
+        Log.e("MainFragment", law);
+    }
+
+    public void setCenterByCurPos(){
+        containerFragment.setCenterByCurPos();
+    }
+
 }

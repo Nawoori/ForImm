@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.administrator.forimm5.DB.LawChild;
 import com.example.administrator.forimm5.DB.LawParent;
+import com.example.administrator.forimm5.Main.MainActivity;
 import com.example.administrator.forimm5.R;
 import com.example.administrator.forimm5.Util.CustomInteraction;
 
@@ -28,10 +29,12 @@ public class LawAdapter extends BaseExpandableListAdapter {
     List<LawParent> data = new ArrayList<>();
     List<LawParent> original = new ArrayList<>();
 
+    MainActivity activity;
 
-    public LawAdapter(List<LawParent> data) {
+    public LawAdapter(List<LawParent> data, MainActivity activity) {
         this.data = data;
         this.original = data;
+        this.activity = activity;
     }
 
     /**
@@ -91,7 +94,28 @@ public class LawAdapter extends BaseExpandableListAdapter {
         }
         // 부모뷰 제목 설정
         TextView parentTitle = (TextView) convertView.findViewById(R.id.lawParentTitle);
-        parentTitle.setText(data.get(groupPosition).getChapter());
+        switch (data.get(groupPosition).getChapter()){
+            case "1부":
+                parentTitle.setText(data.get(groupPosition).getChapter()+" 노동기본권");
+                break;
+            case "2부":
+                parentTitle.setText(data.get(groupPosition).getChapter()+" 고용허가제");
+                break;
+            case "3부":
+                parentTitle.setText(data.get(groupPosition).getChapter()+" 안전하게 일할 권리");
+                break;
+            case "4부":
+                parentTitle.setText(data.get(groupPosition).getChapter()+" 작업중지권");
+                break;
+        }
+
+        ImageView seeDetailIcon = (ImageView) convertView.findViewById(R.id.lawParentDown);
+        if(isExpanded){
+            seeDetailIcon.setImageResource(R.drawable.list_up);
+        } else {
+            seeDetailIcon.setImageResource(R.drawable.list_down_black);
+        }
+
         return convertView;
     }
 
@@ -99,10 +123,10 @@ public class LawAdapter extends BaseExpandableListAdapter {
      * 부모 뷰 설정
      */
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         // 애니메이션 처리할 떄 null 값 처리해주고 재활용하기 때문에 문제 생김. 대부분 뷰 관련 문제는 재사용성 때문 인 듯 하다
-        if(convertView != null)
-            return convertView;
+//        if(convertView != null)
+//            return convertView;
 
         convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_law_child, parent, false);
 
@@ -112,14 +136,17 @@ public class LawAdapter extends BaseExpandableListAdapter {
 
         // 자식뷰 내용 설정
         final TextView content = (TextView) convertView.findViewById(R.id.lawContent);
+        final ImageView seeChildDetail = (ImageView) convertView.findViewById(R.id.lawChildDown);
         content.setText(data.get(groupPosition).getData().get(childPosition).getContent());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(content.getVisibility()== View.GONE){
                     content.setVisibility(View.VISIBLE);
+                    seeChildDetail.setImageResource(R.drawable.list_up);
                 } else {
                     content.setVisibility(View.GONE);
+                    seeChildDetail.setImageResource(R.drawable.list_down_black);
                 }
             }
         });
@@ -129,6 +156,7 @@ public class LawAdapter extends BaseExpandableListAdapter {
         // 애니메이션으로 등장할 커스텀 뷰 설정
         final CustomInteraction interaction = (CustomInteraction) convertView.findViewById(R.id.lawChildInteraction);
         ImageView cancelInteraction = (ImageView) interaction.findViewById(R.id.cancelInteraction);
+        ImageView sendEmailInteraction = (ImageView) interaction.findViewById(R.id.sendEmailInteraction);
 
         // 애니메이션 설정
         final Animation slide_in = AnimationUtils.loadAnimation(parent.getContext(), R.anim.slide_in_left);
@@ -169,6 +197,14 @@ public class LawAdapter extends BaseExpandableListAdapter {
                     Log.e(this.getClass().getSimpleName(),"cancellation Button is clicked");
                     interaction.startAnimation(slide_out);
                 }
+            }
+        });
+        sendEmailInteraction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.callEmail();
+                Log.e("LawAdapter", data.get(groupPosition).getData().get(childPosition).getContent());
+                activity.setLawContent(data.get(groupPosition).getData().get(childPosition).getContent());
             }
         });
         return convertView;

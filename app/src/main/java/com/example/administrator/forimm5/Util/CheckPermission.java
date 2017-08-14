@@ -1,6 +1,5 @@
 package com.example.administrator.forimm5.Util;
 
-import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -65,6 +64,10 @@ public class CheckPermission {
 //        ((CallBack)activity).callInit();
 //    }
 
+    /**
+     * 인터페이스를 상속받은 프래그먼트의 callInit 을 찾아가기 때문에 중복을 걱정할 필요 없다.
+     * @param fragment
+     */
     public static void callInit(Fragment fragment){
         ((CallBack)fragment).callInit();
     }

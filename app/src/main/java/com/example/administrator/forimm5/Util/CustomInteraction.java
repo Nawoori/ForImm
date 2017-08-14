@@ -28,7 +28,7 @@ public class CustomInteraction extends LinearLayout {
 
     public void init(Context context){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.custom_intertactionbar, this, false);
+        View view = inflater.inflate(R.layout.custom_intertactionbar2, this, false);
 
 
         addView(view);

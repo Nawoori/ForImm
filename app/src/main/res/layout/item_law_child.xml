@@ -17,11 +17,11 @@
         android:textSize="16sp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/imageView12"
+        app:layout_constraintRight_toLeftOf="@+id/lawChildDown"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView12"
+        android:id="@+id/lawChildDown"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_marginRight="20dp"
@@ -44,7 +44,9 @@
         android:id="@+id/lawContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingLeft="50dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="88dp"
+        android:layout_marginTop="0dp"
         android:text="TextView"
         android:visibility="gone"
         app:layout_constraintHorizontal_bias="0.0"

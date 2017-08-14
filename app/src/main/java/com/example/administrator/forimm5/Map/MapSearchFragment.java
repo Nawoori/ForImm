@@ -1,7 +1,9 @@
 package com.example.administrator.forimm5.Map;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,19 +17,23 @@ import android.widget.ImageView;
 
 import com.example.administrator.forimm5.DB.Center;
 import com.example.administrator.forimm5.DB.CenterLab;
+import com.example.administrator.forimm5.Main.MainActivity;
 import com.example.administrator.forimm5.R;
+import com.example.administrator.forimm5.Util.CheckPermission;
 
 import java.util.List;
 
 /**
  *
  */
-public class MapSearchFragment extends Fragment {
+public class MapSearchFragment extends Fragment implements CheckPermission.CallBack {
 
     RecyclerView recyclerView;
     EditText queryInput;
     ImageView closeQuery;
     MapSearchAdapter adapter;
+    ConstraintLayout findCenterByCurPos, findCenterByRegion;
+    MainActivity activity;
 
 
     @Override
@@ -42,6 +48,8 @@ public class MapSearchFragment extends Fragment {
         queryInput = (EditText) view.findViewById(R.id.queryInput);
         closeQuery = (ImageView) view.findViewById(R.id.closeQueryInput);
         recyclerView = (RecyclerView) view.findViewById(R.id.queryAllRecycler);
+        findCenterByCurPos = (ConstraintLayout) view.findViewById(R.id.centerByNearbyLayout);
+        findCenterByRegion = (ConstraintLayout) view.findViewById(R.id.centerByRegionLayout);
         adapter = new MapSearchAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -80,6 +88,23 @@ public class MapSearchFragment extends Fragment {
             }
         });
 
+        findCenterByCurPos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] pemrs = {android.Manifest.permission.ACCESS_FINE_LOCATION};
+                CheckPermission.checkVersion(MapSearchFragment.this, pemrs);
+            }
+        });
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (MainActivity) context;
+    }
+
+    @Override
+    public void callInit() {
+        activity.setCenterByCurPos();
+    }
 }

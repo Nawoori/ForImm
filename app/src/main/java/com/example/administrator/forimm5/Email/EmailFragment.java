@@ -2,14 +2,10 @@ package com.example.administrator.forimm5.Email;
 
 
 import android.Manifest;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.administrator.forimm5.DB.Center;
 import com.example.administrator.forimm5.DB.CenterLab;
@@ -47,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class EmailFragment extends Fragment implements CheckPermission.CallBack {
@@ -59,11 +54,15 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack 
     ConstraintLayout constraintLayout;
     ImageView emailAddress, myMail, toggle;
     EditText inputMyMail, email, title, content;
+    EditText input;
 
     ImageAdapter adapter;                   // 자원 영역
     boolean status = false;
     EmailExpandable expandable;
     ArrayList<Uri> imageUri = new ArrayList<>();
+    String askLaw;
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -84,9 +83,14 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack 
             LinearLayoutManager manager = new LinearLayoutManager(getActivity());
             manager.setOrientation(LinearLayoutManager.HORIZONTAL);
             imageRecycler.setLayoutManager(manager);
+            sp = getActivity().getSharedPreferences("mailsp", MODE_PRIVATE);
+            editor = sp.edit();
+            editor.putInt("count", 0);
+            editor.commit();
         }
         return view;
     }
+
 
     public void setViews() {
         toolbar = (Toolbar) view.findViewById(R.id.emailToolbar);
@@ -99,7 +103,11 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack 
         content = (EditText) view.findViewById(R.id.inputContent);
         listView = (ExpandableListView) view.findViewById(R.id.recyclerView3);
         toggle = (ImageView) view.findViewById(R.id.toggleOn);
-        content.setText("\n" + "언제 : " + "\n\n" + "어디서 : " + "\n\n" + "누가" + "\n\n" + "무엇을 : " + "\n\n" + "어떻게 : ");
+        if(askLaw == null){
+            content.setText("\n" + "언제 : " + "\n\n" + "어디서 : " + "\n\n" + "누가" + "\n\n" + "무엇을 : " + "\n\n" + "어떻게 : " + "\n");
+        } else {
+            content.setText("\n"+askLaw+"\n");
+        }
         imageRecycler = (RecyclerView) view.findViewById(R.id.imageRecycler);
     }
 
@@ -137,7 +145,11 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack 
                 case R.id.myEmail:
                     popupMenu = new PopupMenu(getActivity(), v);
                     popupMenu.getMenu().add(0, 0, 0, "+추가");
-                    popupMenu.getMenu().add(0, 1, 0, "qskeksq@gmail.com");
+                    if(sp.getInt("count", 0) != 0) {
+                        for (int i = 1; i < sp.getInt("count", 0) + 1; i++) {
+                            popupMenu.getMenu().add(0, i, 0, sp.getString(i + "", ""));
+                        }
+                    }
 //                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 //                    @Override
 //                    public boolean onMenuItemClick(MenuItem item) {
@@ -157,7 +169,7 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack 
                         public boolean onMenuItemClick(MenuItem item) {
                             if (item.getItemId() == 0) {
                                 View dialog = LayoutInflater.from(getActivity()).inflate(R.layout.custom_dialog, null);
-                                final EditText input = (EditText) dialog.findViewById(R.id.inputEmail);
+                                input = (EditText) dialog.findViewById(R.id.inputEmail);
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setTitle("이메일을 입력하세요");
                                 builder.setView(dialog);
@@ -165,9 +177,9 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack 
                                 builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(getActivity(), "확인", Toast.LENGTH_SHORT).show();
-                                        popupMenu.getMenu().add( 0, popupMenu.getMenu().size()+1, 0,  input.getText().toString() );
-//                                    popupMenu.getMenu().add(0, 2, 0, "qskeksq@naver.com");
+                                        editor.putString(sp.getInt("count", 0)+1+"", input.getText().toString());
+                                        editor.putInt("count", sp.getInt("count", 0)+1);
+                                        editor.commit();
                                     }
                                 });
                                 builder.show();
@@ -317,5 +329,17 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         CheckPermission.onResult(requestCode, grantResults, this);
     }
+
+
+    /**
+     * 계속 오류가 생겼던 이유는 데이터가 먼저 넘어오고 뷰가 set 되기도 전에 content 라는 editText 를 찾아서 사용하려고 하니 문제가 생겼던 것
+     * @param law
+     */
+    public void setLawContent(String law){
+//        content.setText("뭐가 문제냐");
+        askLaw = law;
+        Log.e("EmailFragment", law);
+    }
+
 
 }

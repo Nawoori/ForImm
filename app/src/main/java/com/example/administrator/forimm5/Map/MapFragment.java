@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.forimm5.DB.Center;
 import com.example.administrator.forimm5.DB.CenterLab;
@@ -37,7 +36,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -172,8 +174,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
 //        mapPager.setPadding(120, 0, 120, 0);
 
         indicator.setViewPager(mapPager);
-
     }
+
+    public void setCenterPager(String curRegion) {
+        pagerAdapter = new MapPagerAdapter(CenterLab.getInstance(getContext()).getRegions(curRegion), this);
+        mapPager.setAdapter(pagerAdapter);
+        indicator.setViewPager(mapPager);
+    }
+
 
     // 지도 초기화 -- 서울로 해준다
     @Override
@@ -358,6 +366,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
         }
     }
 
+    public void addMareker(Center center){
+        MarkerOptions options = new MarkerOptions();
+        options.title(center.getName());
+        options.position(new LatLng(Double.parseDouble(center.getLat()), Double.parseDouble(center.getLng())));
+        options.draggable(false);
+        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected));
+        googleMap.addMarker(options);
+    }
+
     // 현재 선택된 위치 알려줌
     public void setCurRegion(String region) {
         this.curRegion = region;
@@ -381,11 +398,45 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
                 moveLocal(latLng, 14);
                 Marker marker = googleMap.addMarker(new MarkerOptions().title("현재 위치").position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_selected)));
                 marker.showInfoWindow();
-                Toast.makeText(getActivity(), latLng.toString(), Toast.LENGTH_LONG).show();
             }
-
         }
+    }
 
+    /**
+     * 현재 위치 기반 가까운 센터 찾기
+     */
+    public void findCenterByCurPosition(){
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ){
+                return;
+            }
+            Location curLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(curLocation != null){
+//                LatLng curLatLng = new LatLng(curLocation.getLatitude(), curLocation.getLongitude());
+                List<Center> centers = CenterLab.getInstance(getContext()).getDatas();
+                List<Double> distances = new ArrayList<>();
+                Map<Double, Center> mapDistance = new HashMap<>();
+                for(Center center : centers){
+                    Location centerLocation = new Location("centerLocation");
+                    centerLocation.setLatitude(Double.parseDouble(center.getLat()));
+                    centerLocation.setLongitude(Double.parseDouble(center.getLng()));
+                    double distance = curLocation.distanceTo(centerLocation);
+                    distances.add(distance);
+                    mapDistance.put(distance, center);
+                }
+                Collections.sort(distances);
+                Center center = mapDistance.get(distances.get(0));
+                moveLocal(new LatLng(Double.parseDouble(center.getLat()), Double.parseDouble(center.getLng())), 14);
+                curRegion = center.getRegion();
+                setLayoutVisibility();
+                addMareker(center);
+                setCenterPager(curRegion);
+
+                movePagerPage(center.getName());
+                getActivity().onBackPressed();
+            }
+        }
     }
 
     // 페이저 페이지 선택시 마커 들어가기
@@ -410,7 +461,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, CheckPe
         }
         mapPager.setCurrentItem(curpso);
     }
-
 //    LocationListener locationListener = new LocationListener() {
 //        @Override
 //        public void onLocationChanged(Location location) {

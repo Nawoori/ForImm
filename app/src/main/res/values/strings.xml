@@ -9,4 +9,10 @@
         <item>english</item>
     </string-array>
 
+    <string name="findLaborCenter">이주민노동센터 찾기</string>
+    <string name="searchKoreanLaborLaw">한국 노동법 검색</string>
+    <string name="faq">자주 묻는 질문</string>
+    <string name="emailConsulting">이메일 컨설팅</string>
+
+
 </resources>
