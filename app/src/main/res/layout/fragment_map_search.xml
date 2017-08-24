@@ -61,8 +61,8 @@
 
         <ImageView
             android:id="@+id/searchViewIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
@@ -84,6 +84,7 @@
             android:ems="10"
             android:hint="장소, 주소, 위치 검색"
             android:inputType="textPersonName"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/searchViewIcon"
             app:layout_constraintLeft_toRightOf="@+id/searchViewIcon"
             app:layout_constraintRight_toLeftOf="@+id/closeQueryInput" />

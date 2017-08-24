@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.administrator.forimm5.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,6 +30,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private ImageView settings;
     private Button goMap, goLaw, goFaq, goEmail;
     private RecyclerView languageRecycler;
+    private TextView mainTitle1, mainTitle2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         goFaq = (Button) view.findViewById(R.id.goFaq);
         goEmail = (Button) view.findViewById(R.id.goEmail);
         settings = (ImageView) view.findViewById(R.id.settings);
+        mainTitle1 = (TextView) view.findViewById(R.id.mainTitle1);
+        mainTitle2 = (TextView) view.findViewById(R.id.mainTitle2);
         languageRecycler = (RecyclerView) view.findViewById(R.id.languageRecycler);
 
         Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/NotoSans-Regular.ttf");
@@ -64,6 +68,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         goLaw.setTypeface(typeface);
         goFaq.setTypeface(typeface);
         goEmail.setTypeface(typeface);
+
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
+
+        mainTitle1.setTypeface(roboto);
+        mainTitle2.setTypeface(roboto);
 
     }
 

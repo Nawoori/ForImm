@@ -56,9 +56,9 @@ public class MapAdapter extends RecyclerView.Adapter<MapAdapter.Holder> {
             holder.name.setTextColor(context.getResources().getColor(R.color.mapCount));
         }
 
-        Typeface typefaceItalicBold = Typeface.createFromAsset(fragment.getActivity().getAssets(), "fonts/NotoSans-BoldItalic.ttf");
+//        Typeface typefaceItalicBold = Typeface.createFromAsset(fragment.getActivity().getAssets(), "fonts/NotoSans-BoldItalic.ttf");
         Typeface typefaceBold = Typeface.createFromAsset(fragment.getActivity().getAssets(), "fonts/NotoSans-Bold.ttf");
-        holder.count.setTypeface(typefaceItalicBold);
+        holder.count.setTypeface(typefaceBold);
         holder.name.setTypeface(typefaceBold);
 
     }

@@ -9,6 +9,19 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@color/unselectedLine"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/centerRecycler" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/centerRecycler"
         android:layout_width="0dp"
@@ -36,7 +49,7 @@
         android:id="@+id/listRegion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="-1dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:text="TextView"
         android:textColor="@color/title"
@@ -55,4 +68,5 @@
         app:layout_constraintBottom_toTopOf="@+id/centerRecycler"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/backtopager" />
+
 </android.support.constraint.ConstraintLayout>

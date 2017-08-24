@@ -128,7 +128,7 @@ public class ContainerFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.customLawImg:
                 callFragmentByAnimation(lawFragment);
-                lawFragment.collapseGroup();
+//                lawFragment.collapseGroup();
                 goLaw.setImageResource(R.drawable.law_selected);
                 break;
             case R.id.customFaqImg:

@@ -1,9 +1,12 @@
 package com.example.administrator.forimm5.Main;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.example.administrator.forimm5.Map.MapListFragment;
 import com.example.administrator.forimm5.R;
@@ -22,6 +25,15 @@ public class MainActivity extends AppCompatActivity implements MapListFragment.C
         setContentView(R.layout.activity_main);
         mainFragment = new MainFragment();
         callFragment(mainFragment);
+
+        View view = getWindow().getDecorView();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(view != null){
+                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                getWindow().setStatusBarColor(Color.WHITE);
+            }
+        }
+
     }
 
     /**

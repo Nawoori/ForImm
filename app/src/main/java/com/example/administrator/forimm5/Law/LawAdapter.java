@@ -96,16 +96,16 @@ public class LawAdapter extends BaseExpandableListAdapter {
         TextView parentTitle = (TextView) convertView.findViewById(R.id.lawParentTitle);
         switch (data.get(groupPosition).getChapter()){
             case "1부":
-                parentTitle.setText(data.get(groupPosition).getChapter()+" 노동기본권");
+                parentTitle.setText(data.get(groupPosition).getChapter()+".노동기본권");
                 break;
             case "2부":
-                parentTitle.setText(data.get(groupPosition).getChapter()+" 고용허가제");
+                parentTitle.setText(data.get(groupPosition).getChapter()+".고용허가제");
                 break;
             case "3부":
-                parentTitle.setText(data.get(groupPosition).getChapter()+" 안전하게 일할 권리");
+                parentTitle.setText(data.get(groupPosition).getChapter()+".안전하게 일할 권리");
                 break;
             case "4부":
-                parentTitle.setText(data.get(groupPosition).getChapter()+" 작업중지권");
+                parentTitle.setText(data.get(groupPosition).getChapter()+".작업중지권");
                 break;
         }
 
@@ -131,7 +131,7 @@ public class LawAdapter extends BaseExpandableListAdapter {
         convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_law_child, parent, false);
 
         // 자식뷰 제목 설정
-        TextView title = (TextView) convertView.findViewById(R.id.lawChildTitle);
+        final TextView title = (TextView) convertView.findViewById(R.id.lawChildTitle);
         title.setText(data.get(groupPosition).getData().get(childPosition).getTitle());
 
         // 자식뷰 내용 설정
@@ -144,9 +144,11 @@ public class LawAdapter extends BaseExpandableListAdapter {
                 if(content.getVisibility()== View.GONE){
                     content.setVisibility(View.VISIBLE);
                     seeChildDetail.setImageResource(R.drawable.list_up);
+                    title.setSingleLine(false);
                 } else {
                     content.setVisibility(View.GONE);
                     seeChildDetail.setImageResource(R.drawable.list_down_black);
+                    title.setSingleLine(true);
                 }
             }
         });
