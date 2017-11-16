@@ -330,7 +330,6 @@ public class EmailFragment extends Fragment implements CheckPermission.CallBack 
         CheckPermission.onResult(requestCode, grantResults, this);
     }
 
-
     /**
      * 계속 오류가 생겼던 이유는 데이터가 먼저 넘어오고 뷰가 set 되기도 전에 content 라는 editText 를 찾아서 사용하려고 하니 문제가 생겼던 것
      * @param law

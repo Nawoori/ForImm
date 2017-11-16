@@ -255,32 +255,4 @@ public class LawAdapter extends BaseExpandableListAdapter {
         notifyDataSetChanged();
     }
 
-    // todo 홀더로 뺴주기
-    class ChildHolder {
-
-        TextView title, content;
-        ImageView start, cancelInteraction;
-        CustomInteraction interaction;
-
-        public ChildHolder(View convertView) {
-
-            title = (TextView) convertView.findViewById(R.id.lawChildTitle);
-            content = (TextView) convertView.findViewById(R.id.lawContent);
-            start = (ImageView) convertView.findViewById(R.id.lawChildStartInter);
-            interaction = (CustomInteraction) convertView.findViewById(R.id.lawChildInteraction);
-            cancelInteraction = (ImageView) interaction.findViewById(R.id.cancelInteraction);
-
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(content.getVisibility()== View.GONE){
-                        content.setVisibility(View.VISIBLE);
-                    } else {
-                        content.setVisibility(View.GONE);
-                    }
-                }
-            });
-        }
-    }
-
 }
